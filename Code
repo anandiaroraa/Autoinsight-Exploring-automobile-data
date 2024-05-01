@@ -1,0 +1,77 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import scipy.stats as stats
+import warnings
+
+warnings.filterwarnings("ignore", "is_categorical_dtype")
+warnings.filterwarnings("ignore", "use_inf_as_na")
+df = pd.read_csv("Automobile_data.csv")
+df.head()
+
+df.shape
+
+df.info()
+df.isna().sum()
+
+df.columns
+
+df.describe().T
+
+df.describe().T
+
+for col in df.select_dtypes('object'):
+    print(f"{col} Unique Values:\n")
+    print(df[col].unique())
+    print("_" * 80)
+df[(df['peak-rpm'] == "?")]
+
+df[(df['normalized-losses'] == '?')]
+
+normalized_losses = df['normalized-losses'].loc[(df['normalized-losses'] != "?")]
+normalized_losses_mean = normalized_losses.astype('int').mean()
+df['normalized-losses'] = df['normalized-losses'].replace("?", normalized_losses_mean)
+
+peak_rpm = df['peak-rpm'].loc[(df['peak-rpm'] != "?")]
+peak_rpm_mean = peak_rpm.astype('int').mean()
+df['peak-rpm'] = df['peak-rpm'].replace("?", peak_rpm_mean)
+
+df['num-of-doors'] = df['num-of-doors'].replace("?", df['num-of-doors'].mode()[0])
+door_mapping = {
+    'two': 2,
+    'three': 3,
+    'four': 4
+}
+df['num-of-doors'] = df['num-of-doors'].map(door_mapping)
+
+df['num-of-doors'].unique()
+
+cylinders_mapping = {
+    'two': 2,
+    'three': 3,
+    'four': 4,
+    'five': 5,
+    'six': 6,
+    'seven': 7,
+    'eight': 8,
+    'nine': 9,
+    'tweleve': 12
+}
+df['num-of-cylinders'] = df['num-of-cylinders'].map(cylinders_mapping)
+
+df.loc[(df['price'] == "?")]
+
+prices = df['price'].loc[(df['price'] != "?")]
+prices_mean = prices.astype("str").astype("int").mean()
+df['price'] = df['price'].replace("?", prices_mean).astype("int")
+
+
+
+df[(df['horsepower'] == "?")]
+
+hp = df['horsepower'].loc[(df['horsepower'] != "?")]
+hp_mean = hp.astype('str').astype('int').mean()
+df['horsepower'] = df['horsepower'].replace("?", hp_mean).astype("int")
+
+df[(df['stroke'] == "?")]
